@@ -9,10 +9,10 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
-public class DefaultInterceptor<A extends Annotation> implements Interceptor<A> {
+public final class DefaultInterceptor<A extends Annotation> implements Interceptor<A> {
 
-    protected final Class<A> annotationClass;
-    protected final Handler<A> handler;
+    private final Class<A> annotationClass;
+    private final Handler<A> handler;
 
     public DefaultInterceptor(Class<A> annotationClass, Handler<A> handler) {
         this.annotationClass = Objects.requireNonNull(annotationClass);
@@ -21,7 +21,7 @@ public class DefaultInterceptor<A extends Annotation> implements Interceptor<A> 
 
     @Override
     @RuntimeType
-    public Object intercept(@Origin Method method, @SuperCall Callable<Object> resolve) throws Throwable {
+    public final Object intercept(@Origin Method method, @SuperCall Callable<Object> resolve) throws Throwable {
 
         handler.init(method.getAnnotation(annotationClass));
         handler.before();
@@ -37,8 +37,12 @@ public class DefaultInterceptor<A extends Annotation> implements Interceptor<A> 
     }
 
     @Override
-    public Class<A> getAnnotationClass() {
+    public final Class<A> getAnnotationClass() {
         return annotationClass;
+    }
+
+    public final Handler<A> getHandler() {
+        return handler;
     }
 
 }
