@@ -36,7 +36,7 @@ public class Wrapper {
         ByteBuddy byteBuddy = new ByteBuddy();
         Class<? extends T> result = byteBuddy
                 .subclass(targetClass)
-                .method(ElementMatchers.isAnnotatedWith(interceptor.annotationClass))
+                .method(ElementMatchers.isAnnotatedWith(interceptor.getAnnotationClass()))
                 .intercept(MethodDelegation.to(interceptor))
                 .make()
                 .load(classLoader)
@@ -44,13 +44,6 @@ public class Wrapper {
 
         log.debug("wrapped class created: {}", result);
         return result;
-    }
-
-    public <T, A extends Annotation> Class<? extends T> wrap(Class<? extends T> targetClass,
-                                                             Class<A> annotationClass,
-                                                             Handler<A> handler) {
-
-        return wrap(targetClass, new Interceptor<>(annotationClass, handler));
     }
 
 }
