@@ -25,12 +25,12 @@ public final class Wrapper {
             this.handler = Objects.requireNonNull(handler);
         }
 
-        private void fireOnException(List<? extends EventListener> listeners, Exception e) {
-            listeners.forEach(listener -> listener.onException(e));
-        }
-
         private void fireOnCompletion(List<? extends EventListener> listeners, Object obj) {
             listeners.forEach(listener -> listener.onCompletion(obj));
+        }
+
+        private void fireOnException(List<? extends EventListener> listeners, Exception e) {
+            listeners.forEach(listener -> listener.onException(e));
         }
 
         @RuntimeType
