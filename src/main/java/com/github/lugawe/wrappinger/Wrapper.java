@@ -17,12 +17,12 @@ public final class Wrapper {
     @SuppressWarnings("unchecked")
     public static class Interceptor<T, A extends Annotation> {
 
-        private final Class<A> annotationClass;
-        private final Handler<T, A> handler;
+        final Handler<T, A> handler;
+        final Class<A> annotationClass;
 
-        Interceptor(Class<A> annotationClass, Handler<T, A> handler) {
-            this.annotationClass = Objects.requireNonNull(annotationClass);
-            this.handler = Objects.requireNonNull(handler);
+        Interceptor(Handler<T, A> handler, Class<A> annotationClass) {
+            this.handler = Objects.requireNonNull(handler, "handler");
+            this.annotationClass = Objects.requireNonNull(annotationClass, "annotationClass");
         }
 
         private void fireOnCompletion(List<? extends EventListener> listeners, Object obj) {
@@ -89,7 +89,7 @@ public final class Wrapper {
         return new ByteBuddy()
                 .subclass(targetClass)
                 .method(ElementMatchers.isAnnotatedWith(annotationClass))
-                .intercept(MethodDelegation.to(new Interceptor<>(annotationClass, handler)))
+                .intercept(MethodDelegation.to(new Interceptor<>(handler, annotationClass)))
                 .make()
                 .load(classLoader)
                 .getLoaded();
