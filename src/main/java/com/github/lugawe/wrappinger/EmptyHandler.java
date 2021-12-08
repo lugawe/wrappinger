@@ -1,8 +1,10 @@
 package com.github.lugawe.wrappinger;
 
 import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.List;
 
-public final class EmptyHandler<T, A extends Annotation> extends AbstractHandler<T, A> {
+public final class EmptyHandler<T, A extends Annotation> implements Handler<T, A> {
 
     private static final Handler<?, ?> instance = new EmptyHandler<>();
 
@@ -12,6 +14,15 @@ public final class EmptyHandler<T, A extends Annotation> extends AbstractHandler
     }
 
     private EmptyHandler() {
+    }
+
+    @Override
+    public final void init(T parent, A annotation) {
+    }
+
+    @Override
+    public final List<? extends EventListener> getEventListeners() {
+        return Collections.emptyList();
     }
 
     @Override
