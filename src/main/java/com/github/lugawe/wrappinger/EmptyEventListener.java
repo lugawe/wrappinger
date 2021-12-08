@@ -2,7 +2,11 @@ package com.github.lugawe.wrappinger;
 
 public final class EmptyEventListener implements EventListener {
 
-    public static final EmptyEventListener INSTANCE = new EmptyEventListener();
+    private static final EventListener instance = new EmptyEventListener();
+
+    public static EventListener getInstance() {
+        return instance;
+    }
 
     private EmptyEventListener() {
     }
