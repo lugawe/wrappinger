@@ -36,13 +36,17 @@ public class Interceptor<T, A extends Annotation> {
         handler.before();
 
         Object result = null;
+        boolean completed = false;
         try {
             result = resolve.call();
-            listener.onCompletion(result);
+            completed = true;
         } catch (Exception e) {
             listener.onException(e);
             throw e;
         } finally {
+            if (completed) {
+                listener.onCompletion(result);
+            }
             handler.after();
         }
 
