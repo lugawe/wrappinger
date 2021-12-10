@@ -12,11 +12,11 @@ public final class EmptyEventListener implements EventListener {
     }
 
     @Override
-    public final void onCompletion(Object result) {
+    public void onCompletion(Object result) {
     }
 
     @Override
-    public final void onException(Exception e) {
+    public void onException(Exception e) {
     }
 
 }

@@ -1,8 +1,6 @@
 package com.github.lugawe.wrappinger;
 
 import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.List;
 
 public abstract class AbstractHandler<T, A extends Annotation> implements Handler<T, A> {
 
@@ -19,8 +17,11 @@ public abstract class AbstractHandler<T, A extends Annotation> implements Handle
     }
 
     @Override
-    public List<? extends EventListener> getEventListeners() {
-        return Collections.emptyList();
+    public void before() {
+    }
+
+    @Override
+    public void after() {
     }
 
 }

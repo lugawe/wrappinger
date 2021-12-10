@@ -2,68 +2,11 @@ package com.github.lugawe.wrappinger;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.implementation.MethodDelegation;
-import net.bytebuddy.implementation.bind.annotation.*;
 import net.bytebuddy.matcher.ElementMatchers;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Callable;
 
 public final class Wrapper {
-
-    @SuppressWarnings("unchecked")
-    public static class Interceptor<T, A extends Annotation> {
-
-        final Handler<T, A> handler;
-        final Class<A> annotationClass;
-
-        Interceptor(Handler<T, A> handler, Class<A> annotationClass) {
-            this.handler = Objects.requireNonNull(handler, "handler");
-            this.annotationClass = Objects.requireNonNull(annotationClass, "annotationClass");
-        }
-
-        private void fireOnCompletion(List<? extends EventListener> listeners, Object obj) {
-            listeners.forEach(listener -> listener.onCompletion(obj));
-        }
-
-        private void fireOnException(List<? extends EventListener> listeners, Exception e) {
-            listeners.forEach(listener -> listener.onException(e));
-        }
-
-        @RuntimeType
-        public Object intercept(@This Object parent,
-                                @Origin Method method,
-                                @SuperCall Callable<Object> resolve) throws Exception {
-
-            handler.init((T) parent, method.getAnnotation(annotationClass));
-
-            List<? extends EventListener> listeners = handler.getEventListeners();
-            if (listeners == null) {
-                throw new NullPointerException("listeners cannot be null");
-            } else {
-                listeners = Collections.unmodifiableList(listeners);
-            }
-
-            handler.before();
-
-            Object result = null;
-            try {
-                result = resolve.call();
-                fireOnCompletion(listeners, result);
-            } catch (Exception e) {
-                fireOnException(listeners, e);
-                throw e;
-            } finally {
-                handler.after();
-            }
-
-            return result;
-        }
-
-    }
 
     private Wrapper() {
     }

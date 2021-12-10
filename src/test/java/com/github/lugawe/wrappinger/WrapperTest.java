@@ -6,8 +6,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +34,14 @@ class WrapperTest {
     @Test
     void wrap() throws Exception {
 
-        Executor executor = Wrapper.wrap(Executor.class, Wrapped.class, EmptyHandler.getInstance()).newInstance();
+        Executor executor = Wrapper.wrap(Executor.class, Wrapped.class, new AbstractHandler<Executor, Wrapped>() {
+
+            @Override
+            public EventListener getEventListener() {
+                return EmptyEventListener.getInstance();
+            }
+
+        }).newInstance();
 
         assertNotNull(executor);
         assertNotNull(executor.execute());
@@ -52,8 +57,8 @@ class WrapperTest {
             }
 
             @Override
-            public List<? extends EventListener> getEventListeners() {
-                return Collections.singletonList(new EventListener() {
+            public EventListener getEventListener() {
+                return new EventListener() {
 
                     @Override
                     public void onCompletion(Object result) {
@@ -67,7 +72,7 @@ class WrapperTest {
                     public void onException(Exception e) {
                     }
 
-                });
+                };
             }
 
         }).newInstance().execute();
