@@ -45,4 +45,17 @@ public final class Wrapper {
         return wrap(ClassLoader.getSystemClassLoader(), targetClass, annotationClass, handler);
     }
 
+    public static <T> Class<? extends T> wrap(ClassLoader classLoader,
+                                              Class<T> targetClass,
+                                              Handler<T, Wrapped> handler) {
+
+        return wrap(classLoader, targetClass, Wrapped.class, handler);
+    }
+
+    public static <T> Class<? extends T> wrap(Class<T> targetClass,
+                                              Handler<T, Wrapped> handler) {
+
+        return wrap(ClassLoader.getSystemClassLoader(), targetClass, Wrapped.class, handler);
+    }
+
 }
