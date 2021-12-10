@@ -49,14 +49,6 @@ class WrapperTest {
         Wrapper.wrap(Executor.class, Wrapped.class, new AbstractHandler<Executor, Wrapped>() {
 
             @Override
-            public void before() {
-            }
-
-            @Override
-            public void after() {
-            }
-
-            @Override
             public EventListener getEventListener() {
                 return new EventListener() {
 
