@@ -38,7 +38,17 @@ class WrapperTest {
 
             @Override
             public EventListener getEventListener() {
-                return EmptyEventListener.getInstance();
+                return new EventListener() {
+                    @Override
+                    public void onCompletion(Object result) {
+
+                    }
+
+                    @Override
+                    public void onException(Exception e) {
+
+                    }
+                };
             }
 
         }).newInstance();
