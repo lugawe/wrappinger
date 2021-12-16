@@ -1,5 +1,6 @@
 package com.github.lugawe.wrappinger;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -8,7 +9,13 @@ public class MultiEventListener implements EventListener {
     protected final Collection<? extends EventListener> eventListeners;
 
     public MultiEventListener(Collection<? extends EventListener> eventListeners) {
-        this.eventListeners = Collections.unmodifiableCollection(eventListeners);
+        if (eventListeners == null) {
+            throw new NullPointerException("eventListeners");
+        } else if (eventListeners.isEmpty()) {
+            this.eventListeners = Collections.emptyList();
+        } else {
+            this.eventListeners = Collections.unmodifiableList(new ArrayList<>(eventListeners));
+        }
     }
 
     @Override
