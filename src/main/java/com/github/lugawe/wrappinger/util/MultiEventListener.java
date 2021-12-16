@@ -1,4 +1,6 @@
-package com.github.lugawe.wrappinger;
+package com.github.lugawe.wrappinger.util;
+
+import com.github.lugawe.wrappinger.EventListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
